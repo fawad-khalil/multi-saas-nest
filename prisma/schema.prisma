@@ -1,0 +1,90 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator nestgraphql {
+  provider = "node node_modules/prisma-nestjs-graphql"
+  output   = "../src/shared/prismagraphql"
+  reExport = Directories
+}
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Operation {
+  list
+  get
+  create
+  update
+  delete
+  search
+  onCreate
+  onUpdate
+  onDelete
+}
+
+enum RoleTypes {
+  SUPER_ADMIN
+  ORG_ADMIN
+  ORG_USER
+}
+
+model Role {
+  id          Int       @id @default(autoincrement())
+  name        String
+  roleType    RoleTypes
+  permissions Permission[]
+  User        User[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @default(now())
+  deletedAt DateTime?
+}
+
+model Permission {
+  id                Int      @id @default(autoincrement())
+  modelName         String
+  allowedOperations Operation[]
+  rolePermissionsId Int
+  role              Role        @relation(fields: [rolePermissionsId], references: [id])
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @default(now())
+  deletedAt DateTime?
+}
+
+model Organization {
+  id          String      @id @default(uuid())
+  name        String
+  users       User[]   
+  subdomain   String   @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  updateBy    User
+  deletedAt   DateTime?
+  
+  @@unique([name])
+}
+
+model User {
+  id             String          @id @default(uuid())
+  email          String       @unique
+  password       String
+  name           String
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  userRoleId     Int
+  role           Role       @relation(fields: [userRoleId], references: [id])
+  roleType       RoleTypes?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  updatedBy      User
+  deletedAt      DateTime?
+
+  @@index([organizationId])
+}
