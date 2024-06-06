@@ -25,6 +25,9 @@ export class OrganizationGroupBy {
     @Field(() => Date, {nullable:true})
     deletedAt?: Date | string;
 
+    @Field(() => String, {nullable:true})
+    updatedBy?: string;
+
     @Field(() => OrganizationCountAggregate, {nullable:true})
     _count?: OrganizationCountAggregate;
 

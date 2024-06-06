@@ -21,4 +21,7 @@ export class OrganizationCreateManyInput {
 
     @Field(() => Date, {nullable:true})
     deletedAt?: Date | string;
+
+    @Field(() => String, {nullable:true})
+    updatedBy?: string;
 }

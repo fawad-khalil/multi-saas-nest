@@ -25,7 +25,7 @@ export class RoleUpdateOneRequiredWithoutPermissionsNestedInput {
 
     @Field(() => RoleWhereUniqueInput, {nullable:true})
     @Type(() => RoleWhereUniqueInput)
-    connect?: Prisma.AtLeast<RoleWhereUniqueInput, 'id'>;
+    connect?: Prisma.AtLeast<RoleWhereUniqueInput, 'id' | 'roleType'>;
 
     @Field(() => RoleUpdateToOneWithWhereWithoutPermissionsInput, {nullable:true})
     @Type(() => RoleUpdateToOneWithWhereWithoutPermissionsInput)

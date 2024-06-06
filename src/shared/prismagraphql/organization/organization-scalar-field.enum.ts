@@ -6,7 +6,8 @@ export enum OrganizationScalarFieldEnum {
     subdomain = "subdomain",
     createdAt = "createdAt",
     updatedAt = "updatedAt",
-    deletedAt = "deletedAt"
+    deletedAt = "deletedAt",
+    updatedBy = "updatedBy"
 }
 
 

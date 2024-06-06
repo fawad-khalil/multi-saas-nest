@@ -19,5 +19,5 @@ export class RoleCreateNestedOneWithoutPermissionsInput {
 
     @Field(() => RoleWhereUniqueInput, {nullable:true})
     @Type(() => RoleWhereUniqueInput)
-    connect?: Prisma.AtLeast<RoleWhereUniqueInput, 'id'>;
+    connect?: Prisma.AtLeast<RoleWhereUniqueInput, 'id' | 'roleType'>;
 }

@@ -17,8 +17,6 @@ export class BaseCrudService<
   FindFirstArg extends BaseWhereArgs,
   FindUniqueArg extends BaseWhereArgs,
   FindManyArg extends BaseWhereArgs,
-  // GroupByArg,
-  // AggregateArg,
   CreateArg extends BaseCreateArgs,
   CreateManyArg extends BaseCreateArgs,
   UpdateArg extends BaseWhereArgs,
@@ -53,14 +51,6 @@ export class BaseCrudService<
       where: { ...args.where, organizationId: org?.id },
     });
   }
-
-  // groupBy(args: GroupByArg) {
-  //   return this.prisma[this.getModelName()].groupBy(args);
-  // }
-
-  // aggregate(args: AggregateArg) {
-  //   return this.prisma[this.getModelName()].aggregate(args);
-  // }
 
   create(args: CreateArg, org: Organization): Promise<T> {
     return this.prisma[this.getModelName()].create({

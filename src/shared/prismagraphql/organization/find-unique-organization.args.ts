@@ -1,14 +1,13 @@
-import { ArgsType, Field } from '@nestjs/graphql';
+import { Field } from '@nestjs/graphql';
+import { ArgsType } from '@nestjs/graphql';
 import { Prisma } from '@prisma/client';
-import { Type } from 'class-transformer';
 import { OrganizationWhereUniqueInput } from './organization-where-unique.input';
+import { Type } from 'class-transformer';
 
 @ArgsType()
 export class FindUniqueOrganizationArgs {
-  @Field(() => OrganizationWhereUniqueInput, { nullable: false })
-  @Type(() => OrganizationWhereUniqueInput)
-  where!: Prisma.AtLeast<
-    OrganizationWhereUniqueInput,
-    'id' | 'name' | 'subdomain' | 'name'
-  >;
+
+    @Field(() => OrganizationWhereUniqueInput, {nullable:false})
+    @Type(() => OrganizationWhereUniqueInput)
+    where!: Prisma.AtLeast<OrganizationWhereUniqueInput, 'id' | 'name' | 'subdomain' | 'name'>;
 }

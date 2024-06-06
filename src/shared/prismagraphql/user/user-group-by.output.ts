@@ -1,55 +1,61 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field } from '@nestjs/graphql';
+import { ObjectType } from '@nestjs/graphql';
+import { Int } from '@nestjs/graphql';
 import { RoleTypes } from '../prisma/role-types.enum';
-import { UserAvgAggregate } from './user-avg-aggregate.output';
 import { UserCountAggregate } from './user-count-aggregate.output';
-import { UserMaxAggregate } from './user-max-aggregate.output';
-import { UserMinAggregate } from './user-min-aggregate.output';
+import { UserAvgAggregate } from './user-avg-aggregate.output';
 import { UserSumAggregate } from './user-sum-aggregate.output';
+import { UserMinAggregate } from './user-min-aggregate.output';
+import { UserMaxAggregate } from './user-max-aggregate.output';
 
 @ObjectType()
 export class UserGroupBy {
-  @Field(() => String, { nullable: false })
-  id!: string;
 
-  @Field(() => String, { nullable: false })
-  email!: string;
+    @Field(() => String, {nullable:false})
+    id!: string;
 
-  @Field(() => String, { nullable: false })
-  password!: string;
+    @Field(() => String, {nullable:false})
+    email!: string;
 
-  @Field(() => String, { nullable: false })
-  name!: string;
+    @Field(() => String, {nullable:false})
+    password!: string;
 
-  @Field(() => String, { nullable: false })
-  organizationId!: string;
+    @Field(() => String, {nullable:false})
+    name!: string;
 
-  @Field(() => Int, { nullable: false })
-  userRoleId!: number;
+    @Field(() => String, {nullable:false})
+    organizationId!: string;
 
-  @Field(() => RoleTypes, { nullable: true })
-  roleType?: keyof typeof RoleTypes;
+    @Field(() => Int, {nullable:false})
+    userRoleId!: number;
 
-  @Field(() => Date, { nullable: false })
-  createdAt!: Date | string;
+    @Field(() => RoleTypes, {nullable:true})
+    roleType?: keyof typeof RoleTypes;
 
-  @Field(() => Date, { nullable: false })
-  updatedAt!: Date | string;
+    @Field(() => Date, {nullable:false})
+    createdAt!: Date | string;
 
-  @Field(() => Date, { nullable: true })
-  deletedAt?: Date | string;
+    @Field(() => Date, {nullable:false})
+    updatedAt!: Date | string;
 
-  @Field(() => UserCountAggregate, { nullable: true })
-  _count?: UserCountAggregate;
+    @Field(() => Date, {nullable:true})
+    deletedAt?: Date | string;
 
-  @Field(() => UserAvgAggregate, { nullable: true })
-  _avg?: UserAvgAggregate;
+    @Field(() => String, {nullable:true})
+    updatedBy?: string;
 
-  @Field(() => UserSumAggregate, { nullable: true })
-  _sum?: UserSumAggregate;
+    @Field(() => UserCountAggregate, {nullable:true})
+    _count?: UserCountAggregate;
 
-  @Field(() => UserMinAggregate, { nullable: true })
-  _min?: UserMinAggregate;
+    @Field(() => UserAvgAggregate, {nullable:true})
+    _avg?: UserAvgAggregate;
 
-  @Field(() => UserMaxAggregate, { nullable: true })
-  _max?: UserMaxAggregate;
+    @Field(() => UserSumAggregate, {nullable:true})
+    _sum?: UserSumAggregate;
+
+    @Field(() => UserMinAggregate, {nullable:true})
+    _min?: UserMinAggregate;
+
+    @Field(() => UserMaxAggregate, {nullable:true})
+    _max?: UserMaxAggregate;
 }

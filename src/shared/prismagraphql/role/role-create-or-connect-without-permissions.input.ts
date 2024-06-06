@@ -10,7 +10,7 @@ export class RoleCreateOrConnectWithoutPermissionsInput {
 
     @Field(() => RoleWhereUniqueInput, {nullable:false})
     @Type(() => RoleWhereUniqueInput)
-    where!: Prisma.AtLeast<RoleWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<RoleWhereUniqueInput, 'id' | 'roleType'>;
 
     @Field(() => RoleCreateWithoutPermissionsInput, {nullable:false})
     @Type(() => RoleCreateWithoutPermissionsInput)

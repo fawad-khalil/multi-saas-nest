@@ -1,6 +1,5 @@
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 import {
-  CreateOneUserArgs,
   DeleteOneUserArgs,
   FindManyUserArgs,
   FindUniqueUserArgs,
@@ -28,14 +27,6 @@ export class UserResolver {
     @Context() context: { req: CustomRequest },
   ) {
     return this.userService.findMany(args, context.req.organization);
-  }
-
-  @Mutation(() => User, { nullable: true })
-  create(
-    @Args() args: CreateOneUserArgs,
-    @Context() context: { req: CustomRequest },
-  ) {
-    return this.userService.create(args, context.req.organization);
   }
 
   @Mutation(() => User, { nullable: true })

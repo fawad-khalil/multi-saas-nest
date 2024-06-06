@@ -3,6 +3,7 @@ import { InputType } from '@nestjs/graphql';
 import { OrganizationWhereInput } from './organization-where.input';
 import { DateTimeFilter } from '../prisma/date-time-filter.input';
 import { DateTimeNullableFilter } from '../prisma/date-time-nullable-filter.input';
+import { StringNullableFilter } from '../prisma/string-nullable-filter.input';
 import { UserListRelationFilter } from '../user/user-list-relation-filter.input';
 
 @InputType()
@@ -34,6 +35,9 @@ export class OrganizationWhereUniqueInput {
 
     @Field(() => DateTimeNullableFilter, {nullable:true})
     deletedAt?: DateTimeNullableFilter;
+
+    @Field(() => StringNullableFilter, {nullable:true})
+    updatedBy?: StringNullableFilter;
 
     @Field(() => UserListRelationFilter, {nullable:true})
     users?: UserListRelationFilter;

@@ -19,7 +19,7 @@ export class FindFirstRoleOrThrowArgs {
     orderBy?: Array<RoleOrderByWithRelationInput>;
 
     @Field(() => RoleWhereUniqueInput, {nullable:true})
-    cursor?: Prisma.AtLeast<RoleWhereUniqueInput, 'id'>;
+    cursor?: Prisma.AtLeast<RoleWhereUniqueInput, 'id' | 'roleType'>;
 
     @Field(() => Int, {nullable:true})
     take?: number;

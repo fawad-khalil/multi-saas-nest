@@ -11,7 +11,7 @@ export class UpsertOneRoleArgs {
 
     @Field(() => RoleWhereUniqueInput, {nullable:false})
     @Type(() => RoleWhereUniqueInput)
-    where!: Prisma.AtLeast<RoleWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<RoleWhereUniqueInput, 'id' | 'roleType'>;
 
     @Field(() => RoleCreateInput, {nullable:false})
     @Type(() => RoleCreateInput)

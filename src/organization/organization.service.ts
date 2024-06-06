@@ -39,21 +39,18 @@ export class OrganizationService extends BaseCrudService<
   }
 
   async create(args: CreateOneOrganizationArgs): Promise<Organization> {
-    const { organization, user } = args?.data || {};
+    const { organization, adminUser } = args.data || {};
     try {
       const newOrg = await this.prisma.organization.create({
-        data: { ...organization },
-      });
-
-      const role = await this.rolesService.findUnique({
-        where: { roleType: { equals: RoleTypesEnum.ORG_ADMIN } },
+        data: organization,
       });
 
       await this.userService.create(
         {
           data: {
-            ...user,
-            roleId: role.id,
+            ...adminUser,
+            roleType: RoleTypesEnum.ORG_ADMIN,
+            organization: { connect: { id: newOrg.id } },
           },
         },
         newOrg,

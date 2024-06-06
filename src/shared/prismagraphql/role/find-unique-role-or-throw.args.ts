@@ -9,5 +9,5 @@ export class FindUniqueRoleOrThrowArgs {
 
     @Field(() => RoleWhereUniqueInput, {nullable:false})
     @Type(() => RoleWhereUniqueInput)
-    where!: Prisma.AtLeast<RoleWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<RoleWhereUniqueInput, 'id' | 'roleType'>;
 }

@@ -22,4 +22,7 @@ export class OrganizationCountOrderByAggregateInput {
 
     @Field(() => SortOrder, {nullable:true})
     deletedAt?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    updatedBy?: keyof typeof SortOrder;
 }

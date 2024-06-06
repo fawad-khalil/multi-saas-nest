@@ -1,4 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { BaseCrudService } from 'src/base-crud/base-crud.service';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -17,6 +22,7 @@ import {
   UpdateOneUserArgs,
   User,
 } from 'src/shared/prismagraphql/user';
+import { LoginOutput, LoginTypeEnum, LoginUserInput } from './dto/login-user';
 
 @Injectable()
 export class UserService extends BaseCrudService<
@@ -34,21 +40,25 @@ export class UserService extends BaseCrudService<
   constructor(
     prisma: PrismaService,
     private readonly rolesService: RolesService,
+    private readonly jwtService: JwtService,
   ) {
     super(prisma);
   }
 
   async create(args: CreateOneUserArgs, org: Organization): Promise<User> {
-    // Hash the password before saving
     const { data: userData } = args;
     const hashedPassword = await bcrypt.hash(args.data.password, 10);
     args.data.password = hashedPassword;
 
-    let defaultRole = null;
+    let role = null;
 
-    if (userData.roleId) {
-      defaultRole = await this.rolesService.findUnique({
+    if (!userData.roleType) {
+      role = await this.rolesService.findUnique({
         where: { roleType: RoleTypesEnum.ORG_USER },
+      });
+    } else {
+      role = await this.rolesService.findUnique({
+        where: { roleType: userData.roleType },
       });
     }
 
@@ -58,7 +68,8 @@ export class UserService extends BaseCrudService<
           ...userData,
           password: hashedPassword,
           organization: { connect: { id: org.id } },
-          role: { connect: { id: userData.roleId || defaultRole.id } }, // Connect the role based on roleType
+          roleType: userData.roleType,
+          role,
         },
       },
       org,
@@ -67,10 +78,60 @@ export class UserService extends BaseCrudService<
 
   async update(args: UpdateOneUserArgs, org: Organization): Promise<User> {
     if (args.data.password) {
-      // Hash the password before updating
       const hashedPassword = await bcrypt.hash(args.data.password, 10);
       args.data.password = hashedPassword;
     }
     return super.update(args, org);
+  }
+
+  async login(args: LoginUserInput): Promise<LoginOutput> {
+    if (args.type === LoginTypeEnum.REFRESH) {
+      if (!args.refresh_token) {
+        throw new BadRequestException();
+      }
+
+      const user = this.jwtService.decode(args.refresh_token);
+      const payload = { sub: user.id, email: user.email };
+      const newAccessToken = this.jwtService.sign(payload, {
+        secret: process.env.JWT_SECRET,
+        expiresIn: process.env.JWT_EXPIRATION,
+      });
+      const refreshToken = this.jwtService.sign(payload, {
+        secret: process.env.JWT_SECRET,
+        expiresIn: process.env.JWT_EXPIRATION,
+      });
+
+      return {
+        access_token: newAccessToken,
+        refresh_token: refreshToken,
+        status: true,
+      };
+    }
+
+    const user = await this.prisma.user.findUnique({
+      where: { email: args.email },
+    });
+
+    if (!user || !(await bcrypt.compare(args.password, user.password))) {
+      throw new UnauthorizedException('Invalid email or password');
+    }
+
+    const payload = { sub: user.id, email: user.email };
+
+    const accessToken = this.jwtService.sign(payload, {
+      secret: process.env.JWT_SECRET,
+      expiresIn: process.env.JWT_EXPIRATION,
+    });
+
+    const refreshToken = this.jwtService.sign(payload, {
+      secret: process.env.JWT_SECRET,
+      expiresIn: process.env.JWT_EXPIRATION,
+    });
+
+    return {
+      access_token: accessToken,
+      refresh_token: refreshToken,
+      status: true,
+    };
   }
 }

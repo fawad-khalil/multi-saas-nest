@@ -25,6 +25,9 @@ export class OrganizationOrderByWithRelationInput {
     @Field(() => SortOrderInput, {nullable:true})
     deletedAt?: SortOrderInput;
 
+    @Field(() => SortOrderInput, {nullable:true})
+    updatedBy?: SortOrderInput;
+
     @Field(() => UserOrderByRelationAggregateInput, {nullable:true})
     users?: UserOrderByRelationAggregateInput;
 }

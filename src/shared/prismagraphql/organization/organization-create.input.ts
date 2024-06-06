@@ -23,6 +23,9 @@ export class OrganizationCreateInput {
     @Field(() => Date, {nullable:true})
     deletedAt?: Date | string;
 
+    @Field(() => String, {nullable:true})
+    updatedBy?: string;
+
     @Field(() => UserCreateNestedManyWithoutOrganizationInput, {nullable:true})
     users?: UserCreateNestedManyWithoutOrganizationInput;
 }

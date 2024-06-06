@@ -21,4 +21,7 @@ export class OrganizationMaxAggregateInput {
 
     @Field(() => Boolean, {nullable:true})
     deletedAt?: true;
+
+    @Field(() => Boolean, {nullable:true})
+    updatedBy?: true;
 }

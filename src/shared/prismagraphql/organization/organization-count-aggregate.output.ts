@@ -24,5 +24,8 @@ export class OrganizationCountAggregate {
     deletedAt!: number;
 
     @Field(() => Int, {nullable:false})
+    updatedBy!: number;
+
+    @Field(() => Int, {nullable:false})
     _all!: number;
 }

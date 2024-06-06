@@ -21,4 +21,7 @@ export class OrganizationUncheckedCreateWithoutUsersInput {
 
     @Field(() => Date, {nullable:true})
     deletedAt?: Date | string;
+
+    @Field(() => String, {nullable:true})
+    updatedBy?: string;
 }

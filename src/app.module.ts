@@ -29,7 +29,7 @@ import { UserModule } from './user/user.module';
     JwtModule.register({
       global: true,
       secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '365days' },
+      signOptions: { expiresIn: process.env.JWT_EXPIRATION },
     }),
     OrganizationModule,
   ],

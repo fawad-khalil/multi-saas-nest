@@ -27,6 +27,9 @@ export class OrganizationOrderByWithAggregationInput {
     @Field(() => SortOrderInput, {nullable:true})
     deletedAt?: SortOrderInput;
 
+    @Field(() => SortOrderInput, {nullable:true})
+    updatedBy?: SortOrderInput;
+
     @Field(() => OrganizationCountOrderByAggregateInput, {nullable:true})
     _count?: OrganizationCountOrderByAggregateInput;
 

@@ -39,7 +39,7 @@ enum RoleTypes {
 model Role {
   id          Int       @id @default(autoincrement())
   name        String
-  roleType    RoleTypes
+  roleType    RoleTypes     @unique
   permissions Permission[]
   User        User[]
   createdAt   DateTime     @default(now())
@@ -65,26 +65,26 @@ model Organization {
   subdomain   String   @unique
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  updateBy    User
   deletedAt   DateTime?
+  updatedBy   String?
   
   @@unique([name])
 }
 
 model User {
-  id             String          @id @default(uuid())
+  id             String       @id @default(uuid())
   email          String       @unique
   password       String
   name           String
   organizationId String
-  organization   Organization @relation(fields: [organizationId], references: [id])
+  organization   Organization   @relation(fields: [organizationId], references: [id])
   userRoleId     Int
-  role           Role       @relation(fields: [userRoleId], references: [id])
+  role           Role           @relation(fields: [userRoleId], references: [id])
   roleType       RoleTypes?
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
-  updatedBy      User
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
   deletedAt      DateTime?
+  updatedBy      String?
 
   @@index([organizationId])
 }

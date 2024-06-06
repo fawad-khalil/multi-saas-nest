@@ -35,7 +35,7 @@ export class GqlJWTGuard extends AuthGuard('jwt') {
         req.organization,
         include,
       );
-      // add user to req so that we can access it later from request
+
       req.user = userData;
       return true;
     } catch {

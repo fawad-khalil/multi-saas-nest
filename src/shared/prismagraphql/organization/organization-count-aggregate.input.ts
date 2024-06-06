@@ -23,5 +23,8 @@ export class OrganizationCountAggregateInput {
     deletedAt?: true;
 
     @Field(() => Boolean, {nullable:true})
+    updatedBy?: true;
+
+    @Field(() => Boolean, {nullable:true})
     _all?: true;
 }
