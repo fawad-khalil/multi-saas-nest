@@ -2,9 +2,9 @@ import { BadRequestException, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
 import * as bcrypt from 'bcrypt';
+import { RoleTypesEnum } from 'src/modules/roles/roles.enum';
+import { RolesService } from 'src/modules/roles/roles.service';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { RoleTypesEnum } from 'src/roles/roles.enum';
-import { RolesService } from 'src/roles/roles.service';
 import { UserService } from './user.service';
 
 jest.mock('bcrypt');

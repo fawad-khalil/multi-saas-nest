@@ -6,9 +6,9 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { BaseCrudService } from 'src/base-crud/base-crud.service';
+import { RoleTypesEnum } from 'src/modules/roles/roles.enum';
+import { RolesService } from 'src/modules/roles/roles.service';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { RoleTypesEnum } from 'src/roles/roles.enum';
-import { RolesService } from 'src/roles/roles.service';
 import { Organization } from 'src/shared/prismagraphql/organization';
 import {
   CreateManyUserArgs,

@@ -2,8 +2,9 @@ import { Injectable, MethodNotAllowedException } from '@nestjs/common';
 import { ArgsType, Field } from '@nestjs/graphql';
 import { Type } from 'class-transformer';
 import { BaseCrudService } from 'src/base-crud/base-crud.service';
+import { RoleTypesEnum } from 'src/modules/roles/roles.enum';
+import { UserService } from 'src/modules/user/user.service';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { RoleTypesEnum } from 'src/roles/roles.enum';
 import {
   CreateManyOrganizationArgs,
   DeleteManyOrganizationArgs,
@@ -17,7 +18,6 @@ import {
   UpdateOneOrganizationArgs,
 } from 'src/shared/prismagraphql/organization';
 import { UserCreateInput } from 'src/shared/prismagraphql/user';
-import { UserService } from 'src/user/user.service';
 
 class CreateOneOrganizationData {
   @Field(() => OrganizationCreateInput, { nullable: false })

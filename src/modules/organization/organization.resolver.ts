@@ -1,7 +1,7 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { GqlJWTGuard } from 'src/gql-jwt/gql-jwt.guard';
-import { RolesGuard } from 'src/roles/roles.guard';
+import { GqlJWTGuard } from 'src/common/guards/auth/gql-jwt.guard';
+import { RolesGuard } from 'src/common/guards/roles/roles.guard';
 import {
   DeleteOneOrganizationArgs,
   FindManyOrganizationArgs,

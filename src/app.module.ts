@@ -8,15 +8,15 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthResolver } from './auth/auth.resolver';
 import { BaseCrudService } from './base-crud/base-crud.service';
-import { OrganizationMiddleware } from './organization/organization.middleware';
-import { OrganizationModule } from './organization/organization.module';
-import { PermissionService } from './permission/permission.service';
+import { OrganizationMiddleware } from './common/middlewares/organization/organization.middleware';
+import { OrganizationModule } from './modules/organization/organization.module';
+import { PermissionService } from './modules/permission/permission.service';
+import { RolesModule } from './modules/roles/roles.module';
+import { RolesService } from './modules/roles/roles.service';
+import { UserModule } from './modules/user/user.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { PrismaService } from './prisma/prisma.service';
-import { RolesModule } from './roles/roles.module';
-import { RolesService } from './roles/roles.service';
 import { SharedModule } from './shared/shared.module';
-import { UserModule } from './user/user.module';
 
 @Module({
   imports: [

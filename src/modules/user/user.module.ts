@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
-import { RolesModule } from 'src/roles/roles.module';
+import { RolesModule } from 'src/modules/roles/roles.module';
 import { UserResolver } from './user.resolver';
 import { UserService } from './user.service';
 
