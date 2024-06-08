@@ -11,7 +11,9 @@ import { BaseCrudService } from './base-crud/base-crud.service';
 import { OrganizationMiddleware } from './organization/organization.middleware';
 import { OrganizationModule } from './organization/organization.module';
 import { PermissionService } from './permission/permission.service';
+import { PrismaModule } from './prisma/prisma.module';
 import { PrismaService } from './prisma/prisma.service';
+import { RolesModule } from './roles/roles.module';
 import { RolesService } from './roles/roles.service';
 import { SharedModule } from './shared/shared.module';
 import { UserModule } from './user/user.module';
@@ -25,6 +27,7 @@ import { UserModule } from './user/user.module';
         limit: 10,
       },
     ]),
+    PrismaModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.graphql'),
@@ -33,6 +36,7 @@ import { UserModule } from './user/user.module';
       context: ({ req }) => ({ request: req }),
     }),
     SharedModule,
+    RolesModule,
     UserModule,
     JwtModule.register({
       global: true,
@@ -56,6 +60,7 @@ export class AppModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(OrganizationMiddleware)
+      .exclude()
       .forRoutes({ path: '*', method: RequestMethod.ALL });
   }
 }

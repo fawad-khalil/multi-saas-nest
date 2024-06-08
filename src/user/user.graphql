@@ -1,24 +1,37 @@
 type User {
-  # Example field (placeholder)
-  exampleField: Int
+  id: ID!
+  name: String!
+  email: String!
 }
 
 input CreateUserInput {
-  # Example field (placeholder)
-  exampleField: Int
+  name: String!
+  email: String!
+  password: String!
 }
 
 input UpdateUserInput {
-  id: Int!
+  id: ID!
+  name: String
+  email: String
+  password: String
+}
+
+input FindManyUserArgs {
+  where: UserWhereInput
+  orderBy: [UserOrderByWithRelationInput!]
+  cursor: UserWhereUniqueInput
+  take: Int
+  skip: Int
 }
 
 type Query {
-  user: [User]!
-  user(id: Int!): User
+  users(args: FindManyUserArgs!): [User]!
+  user(id: ID!): User
 }
 
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
-  removeUser(id: Int!): User
+  removeUser(id: ID!): User
 }

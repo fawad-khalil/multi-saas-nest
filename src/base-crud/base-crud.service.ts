@@ -52,10 +52,10 @@ export class BaseCrudService<
     });
   }
 
-  create(args: CreateArg, org: Organization): Promise<T> {
+  create(args: CreateArg, org?: Organization): Promise<T> {
     return this.prisma[this.getModelName()].create({
       ...args,
-      data: { ...args.data, organizationId: org?.id },
+      data: { ...args.data, ...(org ? { organizationId: org?.id } : {}) },
     });
   }
 

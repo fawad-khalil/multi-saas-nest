@@ -1,0 +1,911 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type UserCountAggregate {
+  id: Int!
+  email: Int!
+  password: Int!
+  name: Int!
+  organizationId: Int!
+  userRoleId: Int!
+  roleType: Int!
+  createdAt: Int!
+  updatedAt: Int!
+  deletedAt: Int!
+  updatedBy: Int!
+  _all: Int!
+}
+
+type UserAvgAggregate {
+  userRoleId: Float
+}
+
+type UserSumAggregate {
+  userRoleId: Int
+}
+
+type UserMinAggregate {
+  id: String
+  email: String
+  password: String
+  name: String
+  organizationId: String
+  userRoleId: Int
+  roleType: RoleTypes
+  createdAt: DateTime
+  updatedAt: DateTime
+  deletedAt: DateTime
+  updatedBy: String
+}
+
+enum RoleTypes {
+  SUPER_ADMIN
+  ORG_ADMIN
+  ORG_USER
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type UserMaxAggregate {
+  id: String
+  email: String
+  password: String
+  name: String
+  organizationId: String
+  userRoleId: Int
+  roleType: RoleTypes
+  createdAt: DateTime
+  updatedAt: DateTime
+  deletedAt: DateTime
+  updatedBy: String
+}
+
+type OrganizationCount {
+  users: Int!
+}
+
+type Organization {
+  id: ID!
+  name: String!
+  subdomain: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime
+  updatedBy: String
+  users: [User!]
+  _count: OrganizationCount!
+}
+
+type Permission {
+  id: ID!
+  modelName: String!
+  allowedOperations: [Operation!]
+  rolePermissionsId: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime
+  role: Role!
+}
+
+enum Operation {
+  list
+  get
+  create
+  update
+  delete
+  search
+  onCreate
+  onUpdate
+  onDelete
+}
+
+type RoleCount {
+  permissions: Int!
+  User: Int!
+}
+
+type Role {
+  id: ID!
+  name: String!
+  roleType: RoleTypes!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime
+  permissions: [Permission!]
+  User: [User!]
+  _count: RoleCount!
+}
+
+type User {
+  id: ID!
+  email: String!
+  password: String!
+  name: String!
+  organizationId: String!
+  userRoleId: Int!
+  roleType: RoleTypes
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime
+  updatedBy: String
+  organization: Organization!
+  role: Role!
+}
+
+type LoginOutput {
+  access_token: String
+  refresh_token: String
+  status: Boolean!
+  error: String
+}
+
+type OrganizationCountAggregate {
+  id: Int!
+  name: Int!
+  subdomain: Int!
+  createdAt: Int!
+  updatedAt: Int!
+  deletedAt: Int!
+  updatedBy: Int!
+  _all: Int!
+}
+
+type OrganizationMinAggregate {
+  id: String
+  name: String
+  subdomain: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  deletedAt: DateTime
+  updatedBy: String
+}
+
+type OrganizationMaxAggregate {
+  id: String
+  name: String
+  subdomain: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  deletedAt: DateTime
+  updatedBy: String
+}
+
+type Query {
+  login(email: String!, password: String!, type: String = "password", refresh_token: String): LoginOutput!
+  findOne(where: OrganizationWhereUniqueInput!): Organization
+  listUsers(where: UserWhereInput, orderBy: [UserOrderByWithRelationInput!], cursor: UserWhereUniqueInput, take: Int, skip: Int, distinct: [UserScalarFieldEnum!]): [User!]!
+  listOrganizations(where: OrganizationWhereInput, orderBy: [OrganizationOrderByWithRelationInput!], cursor: OrganizationWhereUniqueInput, take: Int, skip: Int, distinct: [OrganizationScalarFieldEnum!]): [Organization!]
+}
+
+input OrganizationWhereUniqueInput {
+  id: String
+  name: String
+  subdomain: String
+  AND: [OrganizationWhereInput!]
+  OR: [OrganizationWhereInput!]
+  NOT: [OrganizationWhereInput!]
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  deletedAt: DateTimeNullableFilter
+  updatedBy: StringNullableFilter
+  users: UserListRelationFilter
+}
+
+input OrganizationWhereInput {
+  AND: [OrganizationWhereInput!]
+  OR: [OrganizationWhereInput!]
+  NOT: [OrganizationWhereInput!]
+  id: StringFilter
+  name: StringFilter
+  subdomain: StringFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  deletedAt: DateTimeNullableFilter
+  updatedBy: StringNullableFilter
+  users: UserListRelationFilter
+}
+
+input StringFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  mode: QueryMode
+  not: NestedStringFilter
+}
+
+enum QueryMode {
+  default
+  insensitive
+}
+
+input NestedStringFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringFilter
+}
+
+input DateTimeFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: NestedDateTimeFilter
+}
+
+input NestedDateTimeFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: NestedDateTimeFilter
+}
+
+input DateTimeNullableFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: NestedDateTimeNullableFilter
+}
+
+input NestedDateTimeNullableFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: NestedDateTimeNullableFilter
+}
+
+input StringNullableFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  mode: QueryMode
+  not: NestedStringNullableFilter
+}
+
+input NestedStringNullableFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringNullableFilter
+}
+
+input UserListRelationFilter {
+  every: UserWhereInput
+  some: UserWhereInput
+  none: UserWhereInput
+}
+
+input UserWhereInput {
+  AND: [UserWhereInput!]
+  OR: [UserWhereInput!]
+  NOT: [UserWhereInput!]
+  id: StringFilter
+  email: StringFilter
+  password: StringFilter
+  name: StringFilter
+  organizationId: StringFilter
+  userRoleId: IntFilter
+  roleType: EnumRoleTypesNullableFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  deletedAt: DateTimeNullableFilter
+  updatedBy: StringNullableFilter
+  organization: OrganizationRelationFilter
+  role: RoleRelationFilter
+}
+
+input IntFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: NestedIntFilter
+}
+
+input NestedIntFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: NestedIntFilter
+}
+
+input EnumRoleTypesNullableFilter {
+  equals: RoleTypes
+  in: [RoleTypes!]
+  notIn: [RoleTypes!]
+  not: NestedEnumRoleTypesNullableFilter
+}
+
+input NestedEnumRoleTypesNullableFilter {
+  equals: RoleTypes
+  in: [RoleTypes!]
+  notIn: [RoleTypes!]
+  not: NestedEnumRoleTypesNullableFilter
+}
+
+input OrganizationRelationFilter {
+  is: OrganizationWhereInput
+  isNot: OrganizationWhereInput
+}
+
+input RoleRelationFilter {
+  is: RoleWhereInput
+  isNot: RoleWhereInput
+}
+
+input RoleWhereInput {
+  AND: [RoleWhereInput!]
+  OR: [RoleWhereInput!]
+  NOT: [RoleWhereInput!]
+  id: IntFilter
+  name: StringFilter
+  roleType: EnumRoleTypesFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  deletedAt: DateTimeNullableFilter
+  permissions: PermissionListRelationFilter
+  User: UserListRelationFilter
+}
+
+input EnumRoleTypesFilter {
+  equals: RoleTypes
+  in: [RoleTypes!]
+  notIn: [RoleTypes!]
+  not: NestedEnumRoleTypesFilter
+}
+
+input NestedEnumRoleTypesFilter {
+  equals: RoleTypes
+  in: [RoleTypes!]
+  notIn: [RoleTypes!]
+  not: NestedEnumRoleTypesFilter
+}
+
+input PermissionListRelationFilter {
+  every: PermissionWhereInput
+  some: PermissionWhereInput
+  none: PermissionWhereInput
+}
+
+input PermissionWhereInput {
+  AND: [PermissionWhereInput!]
+  OR: [PermissionWhereInput!]
+  NOT: [PermissionWhereInput!]
+  id: IntFilter
+  modelName: StringFilter
+  allowedOperations: EnumOperationNullableListFilter
+  rolePermissionsId: IntFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  deletedAt: DateTimeNullableFilter
+  role: RoleRelationFilter
+}
+
+input EnumOperationNullableListFilter {
+  equals: [Operation!]
+  has: Operation
+  hasEvery: [Operation!]
+  hasSome: [Operation!]
+  isEmpty: Boolean
+}
+
+input UserOrderByWithRelationInput {
+  id: SortOrder
+  email: SortOrder
+  password: SortOrder
+  name: SortOrder
+  organizationId: SortOrder
+  userRoleId: SortOrder
+  roleType: SortOrderInput
+  createdAt: SortOrder
+  updatedAt: SortOrder
+  deletedAt: SortOrderInput
+  updatedBy: SortOrderInput
+  organization: OrganizationOrderByWithRelationInput
+  role: RoleOrderByWithRelationInput
+}
+
+enum SortOrder {
+  asc
+  desc
+}
+
+input SortOrderInput {
+  sort: SortOrder!
+  nulls: NullsOrder
+}
+
+enum NullsOrder {
+  first
+  last
+}
+
+input OrganizationOrderByWithRelationInput {
+  id: SortOrder
+  name: SortOrder
+  subdomain: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+  deletedAt: SortOrderInput
+  updatedBy: SortOrderInput
+  users: UserOrderByRelationAggregateInput
+}
+
+input UserOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input RoleOrderByWithRelationInput {
+  id: SortOrder
+  name: SortOrder
+  roleType: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+  deletedAt: SortOrderInput
+  permissions: PermissionOrderByRelationAggregateInput
+  User: UserOrderByRelationAggregateInput
+}
+
+input PermissionOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input UserWhereUniqueInput {
+  id: String
+  email: String
+  AND: [UserWhereInput!]
+  OR: [UserWhereInput!]
+  NOT: [UserWhereInput!]
+  password: StringFilter
+  name: StringFilter
+  organizationId: StringFilter
+  userRoleId: IntFilter
+  roleType: EnumRoleTypesNullableFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  deletedAt: DateTimeNullableFilter
+  updatedBy: StringNullableFilter
+  organization: OrganizationRelationFilter
+  role: RoleRelationFilter
+}
+
+enum UserScalarFieldEnum {
+  id
+  email
+  password
+  name
+  organizationId
+  userRoleId
+  roleType
+  createdAt
+  updatedAt
+  deletedAt
+  updatedBy
+}
+
+enum OrganizationScalarFieldEnum {
+  id
+  name
+  subdomain
+  createdAt
+  updatedAt
+  deletedAt
+  updatedBy
+}
+
+type Mutation {
+  registerUser(data: UserCreateInput!): User!
+  update(data: OrganizationUpdateInput!, where: OrganizationWhereUniqueInput!): Organization
+  remove(where: OrganizationWhereUniqueInput!): Organization
+  create: Organization
+}
+
+input UserCreateInput {
+  id: String
+  email: String!
+  password: String!
+  name: String!
+  roleType: RoleTypes
+  createdAt: DateTime
+  updatedAt: DateTime
+  deletedAt: DateTime
+  updatedBy: String
+  organization: OrganizationCreateNestedOneWithoutUsersInput!
+  role: RoleCreateNestedOneWithoutUserInput!
+}
+
+input OrganizationCreateNestedOneWithoutUsersInput {
+  create: OrganizationCreateWithoutUsersInput
+  connectOrCreate: OrganizationCreateOrConnectWithoutUsersInput
+  connect: OrganizationWhereUniqueInput
+}
+
+input OrganizationCreateWithoutUsersInput {
+  id: String
+  name: String!
+  subdomain: String!
+  createdAt: DateTime
+  updatedAt: DateTime
+  deletedAt: DateTime
+  updatedBy: String
+}
+
+input OrganizationCreateOrConnectWithoutUsersInput {
+  where: OrganizationWhereUniqueInput!
+  create: OrganizationCreateWithoutUsersInput!
+}
+
+input RoleCreateNestedOneWithoutUserInput {
+  create: RoleCreateWithoutUserInput
+  connectOrCreate: RoleCreateOrConnectWithoutUserInput
+  connect: RoleWhereUniqueInput
+}
+
+input RoleCreateWithoutUserInput {
+  name: String!
+  roleType: RoleTypes!
+  createdAt: DateTime
+  updatedAt: DateTime
+  deletedAt: DateTime
+  permissions: PermissionCreateNestedManyWithoutRoleInput
+}
+
+input PermissionCreateNestedManyWithoutRoleInput {
+  create: [PermissionCreateWithoutRoleInput!]
+  connectOrCreate: [PermissionCreateOrConnectWithoutRoleInput!]
+  createMany: PermissionCreateManyRoleInputEnvelope
+  connect: [PermissionWhereUniqueInput!]
+}
+
+input PermissionCreateWithoutRoleInput {
+  modelName: String!
+  allowedOperations: PermissionCreateallowedOperationsInput
+  createdAt: DateTime
+  updatedAt: DateTime
+  deletedAt: DateTime
+}
+
+input PermissionCreateallowedOperationsInput {
+  set: [Operation!]!
+}
+
+input PermissionCreateOrConnectWithoutRoleInput {
+  where: PermissionWhereUniqueInput!
+  create: PermissionCreateWithoutRoleInput!
+}
+
+input PermissionWhereUniqueInput {
+  id: Int
+  AND: [PermissionWhereInput!]
+  OR: [PermissionWhereInput!]
+  NOT: [PermissionWhereInput!]
+  modelName: StringFilter
+  allowedOperations: EnumOperationNullableListFilter
+  rolePermissionsId: IntFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  deletedAt: DateTimeNullableFilter
+  role: RoleRelationFilter
+}
+
+input PermissionCreateManyRoleInputEnvelope {
+  data: [PermissionCreateManyRoleInput!]!
+  skipDuplicates: Boolean
+}
+
+input PermissionCreateManyRoleInput {
+  id: Int
+  modelName: String!
+  allowedOperations: PermissionCreateallowedOperationsInput
+  createdAt: DateTime
+  updatedAt: DateTime
+  deletedAt: DateTime
+}
+
+input RoleCreateOrConnectWithoutUserInput {
+  where: RoleWhereUniqueInput!
+  create: RoleCreateWithoutUserInput!
+}
+
+input RoleWhereUniqueInput {
+  id: Int
+  roleType: RoleTypes
+  AND: [RoleWhereInput!]
+  OR: [RoleWhereInput!]
+  NOT: [RoleWhereInput!]
+  name: StringFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  deletedAt: DateTimeNullableFilter
+  permissions: PermissionListRelationFilter
+  User: UserListRelationFilter
+}
+
+input OrganizationUpdateInput {
+  id: StringFieldUpdateOperationsInput
+  name: StringFieldUpdateOperationsInput
+  subdomain: StringFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+  deletedAt: NullableDateTimeFieldUpdateOperationsInput
+  updatedBy: NullableStringFieldUpdateOperationsInput
+  users: UserUpdateManyWithoutOrganizationNestedInput
+}
+
+input StringFieldUpdateOperationsInput {
+  set: String
+}
+
+input DateTimeFieldUpdateOperationsInput {
+  set: DateTime
+}
+
+input NullableDateTimeFieldUpdateOperationsInput {
+  set: DateTime
+}
+
+input NullableStringFieldUpdateOperationsInput {
+  set: String
+}
+
+input UserUpdateManyWithoutOrganizationNestedInput {
+  create: [UserCreateWithoutOrganizationInput!]
+  connectOrCreate: [UserCreateOrConnectWithoutOrganizationInput!]
+  upsert: [UserUpsertWithWhereUniqueWithoutOrganizationInput!]
+  createMany: UserCreateManyOrganizationInputEnvelope
+  set: [UserWhereUniqueInput!]
+  disconnect: [UserWhereUniqueInput!]
+  delete: [UserWhereUniqueInput!]
+  connect: [UserWhereUniqueInput!]
+  update: [UserUpdateWithWhereUniqueWithoutOrganizationInput!]
+  updateMany: [UserUpdateManyWithWhereWithoutOrganizationInput!]
+  deleteMany: [UserScalarWhereInput!]
+}
+
+input UserCreateWithoutOrganizationInput {
+  id: String
+  email: String!
+  password: String!
+  name: String!
+  roleType: RoleTypes
+  createdAt: DateTime
+  updatedAt: DateTime
+  deletedAt: DateTime
+  updatedBy: String
+  role: RoleCreateNestedOneWithoutUserInput!
+}
+
+input UserCreateOrConnectWithoutOrganizationInput {
+  where: UserWhereUniqueInput!
+  create: UserCreateWithoutOrganizationInput!
+}
+
+input UserUpsertWithWhereUniqueWithoutOrganizationInput {
+  where: UserWhereUniqueInput!
+  update: UserUpdateWithoutOrganizationInput!
+  create: UserCreateWithoutOrganizationInput!
+}
+
+input UserUpdateWithoutOrganizationInput {
+  id: StringFieldUpdateOperationsInput
+  email: StringFieldUpdateOperationsInput
+  password: StringFieldUpdateOperationsInput
+  name: StringFieldUpdateOperationsInput
+  roleType: NullableEnumRoleTypesFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+  deletedAt: NullableDateTimeFieldUpdateOperationsInput
+  updatedBy: NullableStringFieldUpdateOperationsInput
+  role: RoleUpdateOneRequiredWithoutUserNestedInput
+}
+
+input NullableEnumRoleTypesFieldUpdateOperationsInput {
+  set: RoleTypes
+}
+
+input RoleUpdateOneRequiredWithoutUserNestedInput {
+  create: RoleCreateWithoutUserInput
+  connectOrCreate: RoleCreateOrConnectWithoutUserInput
+  upsert: RoleUpsertWithoutUserInput
+  connect: RoleWhereUniqueInput
+  update: RoleUpdateToOneWithWhereWithoutUserInput
+}
+
+input RoleUpsertWithoutUserInput {
+  update: RoleUpdateWithoutUserInput!
+  create: RoleCreateWithoutUserInput!
+  where: RoleWhereInput
+}
+
+input RoleUpdateWithoutUserInput {
+  name: StringFieldUpdateOperationsInput
+  roleType: EnumRoleTypesFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+  deletedAt: NullableDateTimeFieldUpdateOperationsInput
+  permissions: PermissionUpdateManyWithoutRoleNestedInput
+}
+
+input EnumRoleTypesFieldUpdateOperationsInput {
+  set: RoleTypes
+}
+
+input PermissionUpdateManyWithoutRoleNestedInput {
+  create: [PermissionCreateWithoutRoleInput!]
+  connectOrCreate: [PermissionCreateOrConnectWithoutRoleInput!]
+  upsert: [PermissionUpsertWithWhereUniqueWithoutRoleInput!]
+  createMany: PermissionCreateManyRoleInputEnvelope
+  set: [PermissionWhereUniqueInput!]
+  disconnect: [PermissionWhereUniqueInput!]
+  delete: [PermissionWhereUniqueInput!]
+  connect: [PermissionWhereUniqueInput!]
+  update: [PermissionUpdateWithWhereUniqueWithoutRoleInput!]
+  updateMany: [PermissionUpdateManyWithWhereWithoutRoleInput!]
+  deleteMany: [PermissionScalarWhereInput!]
+}
+
+input PermissionUpsertWithWhereUniqueWithoutRoleInput {
+  where: PermissionWhereUniqueInput!
+  update: PermissionUpdateWithoutRoleInput!
+  create: PermissionCreateWithoutRoleInput!
+}
+
+input PermissionUpdateWithoutRoleInput {
+  modelName: StringFieldUpdateOperationsInput
+  allowedOperations: PermissionUpdateallowedOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+  deletedAt: NullableDateTimeFieldUpdateOperationsInput
+}
+
+input PermissionUpdateallowedOperationsInput {
+  set: [Operation!]
+  push: [Operation!]
+}
+
+input PermissionUpdateWithWhereUniqueWithoutRoleInput {
+  where: PermissionWhereUniqueInput!
+  data: PermissionUpdateWithoutRoleInput!
+}
+
+input PermissionUpdateManyWithWhereWithoutRoleInput {
+  where: PermissionScalarWhereInput!
+  data: PermissionUpdateManyMutationInput!
+}
+
+input PermissionScalarWhereInput {
+  AND: [PermissionScalarWhereInput!]
+  OR: [PermissionScalarWhereInput!]
+  NOT: [PermissionScalarWhereInput!]
+  id: IntFilter
+  modelName: StringFilter
+  allowedOperations: EnumOperationNullableListFilter
+  rolePermissionsId: IntFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  deletedAt: DateTimeNullableFilter
+}
+
+input PermissionUpdateManyMutationInput {
+  modelName: StringFieldUpdateOperationsInput
+  allowedOperations: PermissionUpdateallowedOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+  deletedAt: NullableDateTimeFieldUpdateOperationsInput
+}
+
+input RoleUpdateToOneWithWhereWithoutUserInput {
+  where: RoleWhereInput
+  data: RoleUpdateWithoutUserInput!
+}
+
+input UserCreateManyOrganizationInputEnvelope {
+  data: [UserCreateManyOrganizationInput!]!
+  skipDuplicates: Boolean
+}
+
+input UserCreateManyOrganizationInput {
+  id: String
+  email: String!
+  password: String!
+  name: String!
+  userRoleId: Int!
+  roleType: RoleTypes
+  createdAt: DateTime
+  updatedAt: DateTime
+  deletedAt: DateTime
+  updatedBy: String
+}
+
+input UserUpdateWithWhereUniqueWithoutOrganizationInput {
+  where: UserWhereUniqueInput!
+  data: UserUpdateWithoutOrganizationInput!
+}
+
+input UserUpdateManyWithWhereWithoutOrganizationInput {
+  where: UserScalarWhereInput!
+  data: UserUpdateManyMutationInput!
+}
+
+input UserScalarWhereInput {
+  AND: [UserScalarWhereInput!]
+  OR: [UserScalarWhereInput!]
+  NOT: [UserScalarWhereInput!]
+  id: StringFilter
+  email: StringFilter
+  password: StringFilter
+  name: StringFilter
+  organizationId: StringFilter
+  userRoleId: IntFilter
+  roleType: EnumRoleTypesNullableFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  deletedAt: DateTimeNullableFilter
+  updatedBy: StringNullableFilter
+}
+
+input UserUpdateManyMutationInput {
+  id: StringFieldUpdateOperationsInput
+  email: StringFieldUpdateOperationsInput
+  password: StringFieldUpdateOperationsInput
+  name: StringFieldUpdateOperationsInput
+  roleType: NullableEnumRoleTypesFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+  deletedAt: NullableDateTimeFieldUpdateOperationsInput
+  updatedBy: NullableStringFieldUpdateOperationsInput
+}

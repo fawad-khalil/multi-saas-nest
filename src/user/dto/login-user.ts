@@ -8,13 +8,13 @@ export enum LoginTypeEnum {
 @ArgsType()
 export class LoginUserInput {
   @Field(() => String, { nullable: false })
-  email: string;
+  email?: string;
   @Field(() => String, { nullable: false })
-  password: string;
+  password?: string;
   @Field(() => String, { nullable: true, defaultValue: LoginTypeEnum.PASSWORD })
   type: string;
   @Field(() => String, { nullable: true })
-  refresh_token: string;
+  refresh_token?: string;
 }
 
 @ObjectType()

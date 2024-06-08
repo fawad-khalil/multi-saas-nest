@@ -1,4 +1,7 @@
+import { UseGuards } from '@nestjs/common';
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { GqlJWTGuard } from 'src/gql-jwt/gql-jwt.guard';
+import { RolesGuard } from 'src/roles/roles.guard';
 import {
   DeleteOneUserArgs,
   FindManyUserArgs,
@@ -13,6 +16,7 @@ import { UserService } from './user.service';
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
+  @UseGuards(GqlJWTGuard, RolesGuard)
   @Query(() => User, { nullable: false })
   findOne(
     @Args() args: FindUniqueUserArgs,
@@ -21,6 +25,7 @@ export class UserResolver {
     return this.userService.findUnique(args, context.req.organization);
   }
 
+  @UseGuards(GqlJWTGuard, RolesGuard)
   @Query(() => [User], { nullable: false })
   listUsers(
     @Args() args: FindManyUserArgs,
@@ -29,6 +34,7 @@ export class UserResolver {
     return this.userService.findMany(args, context.req.organization);
   }
 
+  @UseGuards(GqlJWTGuard, RolesGuard)
   @Mutation(() => User, { nullable: true })
   update(
     @Args() args: UpdateOneUserArgs,
@@ -37,6 +43,7 @@ export class UserResolver {
     return this.userService.update(args, context.req.organization);
   }
 
+  @UseGuards(GqlJWTGuard, RolesGuard)
   @Mutation(() => User, { nullable: true })
   remove(
     @Args() args: DeleteOneUserArgs,

@@ -1,24 +1,48 @@
+scalar DateTime
+
 type Organization {
-  # Example field (placeholder)
-  exampleField: Int
+  id: ID!
+  name: String!
+  subdomain: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime
 }
 
 input CreateOrganizationInput {
-  # Example field (placeholder)
-  exampleField: Int
+  name: String!
+  subdomain: String!
 }
 
 input UpdateOrganizationInput {
-  id: Int!
+  id: ID!
+  name: String
+  subdomain: String
+}
+
+input OrganizationOrderByWithRelationInput {
+  name: SortOrder
+  subdomain: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+}
+
+enum SortOrder {
+  asc
+  desc
 }
 
 type Query {
-  organization: [Organization]!
-  organization(id: Int!): Organization
+  organizations: [Organization]!
+  organization(id: ID!): Organization
 }
 
 type Mutation {
-  createOrganization(createOrganizationInput: CreateOrganizationInput!): Organization!
-  updateOrganization(updateOrganizationInput: UpdateOrganizationInput!): Organization!
-  removeOrganization(id: Int!): Organization
+  createOrganization(
+    createOrganizationInput: CreateOrganizationInput!
+  ): Organization!
+  updateOrganization(
+    updateOrganizationInput: UpdateOrganizationInput!
+  ): Organization!
+  removeOrganization(id: ID!): Organization
 }

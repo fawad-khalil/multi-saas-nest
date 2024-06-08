@@ -1,21 +1,38 @@
 import { Injectable, MethodNotAllowedException } from '@nestjs/common';
+import { ArgsType, Field } from '@nestjs/graphql';
+import { Type } from 'class-transformer';
 import { BaseCrudService } from 'src/base-crud/base-crud.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { RoleTypesEnum } from 'src/roles/roles.enum';
-import { RolesService } from 'src/roles/roles.service';
 import {
   CreateManyOrganizationArgs,
-  CreateOneOrganizationArgs,
   DeleteManyOrganizationArgs,
   DeleteOneOrganizationArgs,
   FindFirstOrganizationArgs,
   FindManyOrganizationArgs,
   FindUniqueOrganizationArgs,
   Organization,
+  OrganizationCreateInput,
   UpdateManyOrganizationArgs,
   UpdateOneOrganizationArgs,
 } from 'src/shared/prismagraphql/organization';
+import { UserCreateInput } from 'src/shared/prismagraphql/user';
 import { UserService } from 'src/user/user.service';
+
+class CreateOneOrganizationData {
+  @Field(() => OrganizationCreateInput, { nullable: false })
+  @Type(() => OrganizationCreateInput)
+  organization!: OrganizationCreateInput;
+
+  @Field(() => UserCreateInput, { nullable: false })
+  @Type(() => UserCreateInput)
+  adminUser!: UserCreateInput;
+}
+
+@ArgsType()
+export class CustomCreateOneOrganizationArgs {
+  data!: CreateOneOrganizationData;
+}
 
 @Injectable()
 export class OrganizationService extends BaseCrudService<
@@ -23,7 +40,7 @@ export class OrganizationService extends BaseCrudService<
   FindFirstOrganizationArgs,
   FindUniqueOrganizationArgs,
   FindManyOrganizationArgs,
-  CreateOneOrganizationArgs,
+  CustomCreateOneOrganizationArgs,
   CreateManyOrganizationArgs,
   UpdateOneOrganizationArgs,
   UpdateManyOrganizationArgs,
@@ -33,28 +50,24 @@ export class OrganizationService extends BaseCrudService<
   constructor(
     prisma: PrismaService,
     private readonly userService: UserService,
-    private readonly rolesService: RolesService,
   ) {
     super(prisma);
   }
 
-  async create(args: CreateOneOrganizationArgs): Promise<Organization> {
+  async create(args: CustomCreateOneOrganizationArgs): Promise<Organization> {
     const { organization, adminUser } = args.data || {};
     try {
       const newOrg = await this.prisma.organization.create({
         data: organization,
       });
 
-      await this.userService.create(
-        {
-          data: {
-            ...adminUser,
-            roleType: RoleTypesEnum.ORG_ADMIN,
-            organization: { connect: { id: newOrg.id } },
-          },
+      await this.userService.create({
+        data: {
+          ...adminUser,
+          roleType: RoleTypesEnum.ORG_ADMIN,
+          organization: { connect: { id: newOrg.id } },
         },
-        newOrg,
-      );
+      });
 
       return newOrg;
     } catch (error) {

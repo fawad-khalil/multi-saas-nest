@@ -45,8 +45,13 @@ export class UserService extends BaseCrudService<
     super(prisma);
   }
 
-  async create(args: CreateOneUserArgs, org: Organization): Promise<User> {
+  async create(args: CreateOneUserArgs): Promise<User> {
     const { data: userData } = args;
+
+    if (!userData.organization) {
+      throw new BadRequestException({ message: 'Organization is missing.' });
+    }
+
     const hashedPassword = await bcrypt.hash(args.data.password, 10);
     args.data.password = hashedPassword;
 
@@ -62,18 +67,15 @@ export class UserService extends BaseCrudService<
       });
     }
 
-    return super.create(
-      {
-        data: {
-          ...userData,
-          password: hashedPassword,
-          organization: { connect: { id: org.id } },
-          roleType: userData.roleType,
-          role,
-        },
+    return super.create({
+      data: {
+        ...userData,
+        password: hashedPassword,
+        organization: args.data.organization,
+        roleType: userData.roleType,
+        role,
       },
-      org,
-    );
+    });
   }
 
   async update(args: UpdateOneUserArgs, org: Organization): Promise<User> {

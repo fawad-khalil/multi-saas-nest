@@ -37,6 +37,7 @@ export class GqlJWTGuard extends AuthGuard('jwt') {
       );
 
       req.user = userData;
+      req.organization = { id: userData.organizationId };
       return true;
     } catch {
       throw new UnauthorizedException();

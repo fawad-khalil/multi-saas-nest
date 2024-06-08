@@ -1,6 +1,8 @@
+import { UseGuards } from '@nestjs/common';
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { GqlJWTGuard } from 'src/gql-jwt/gql-jwt.guard';
+import { RolesGuard } from 'src/roles/roles.guard';
 import {
-  CreateOneOrganizationArgs,
   DeleteOneOrganizationArgs,
   FindManyOrganizationArgs,
   FindUniqueOrganizationArgs,
@@ -8,20 +10,21 @@ import {
   UpdateOneOrganizationArgs,
 } from 'src/shared/prismagraphql/organization';
 import { CustomRequest } from 'src/types/custom-request';
-import { OrganizationService } from './organization.service';
+import {
+  CustomCreateOneOrganizationArgs,
+  OrganizationService,
+} from './organization.service';
 
 @Resolver(() => Organization)
 export class OrganizationResolver {
   constructor(private readonly organizationService: OrganizationService) {}
 
   @Mutation(() => Organization, { nullable: true })
-  create(
-    @Args()
-    args: CreateOneOrganizationArgs,
-  ) {
+  create(@Args() args: CustomCreateOneOrganizationArgs) {
     return this.organizationService.create(args);
   }
 
+  @UseGuards(GqlJWTGuard, RolesGuard)
   @Query(() => [Organization], { nullable: true })
   listOrganizations(
     @Args() args: FindManyOrganizationArgs,
@@ -30,6 +33,7 @@ export class OrganizationResolver {
     return this.organizationService.findMany(args, context.req.organization);
   }
 
+  @UseGuards(GqlJWTGuard, RolesGuard)
   @Query(() => Organization, { nullable: true })
   findOne(
     @Args() args: FindUniqueOrganizationArgs,
@@ -38,6 +42,7 @@ export class OrganizationResolver {
     return this.organizationService.findUnique(args, context.req.organization);
   }
 
+  @UseGuards(GqlJWTGuard, RolesGuard)
   @Mutation(() => Organization, { nullable: true })
   update(
     @Args() args: UpdateOneOrganizationArgs,
@@ -46,6 +51,7 @@ export class OrganizationResolver {
     return this.organizationService.update(args, context.req.organization);
   }
 
+  @UseGuards(GqlJWTGuard, RolesGuard)
   @Mutation(() => Organization, { nullable: true })
   remove(
     @Args() args: DeleteOneOrganizationArgs,
