@@ -44,6 +44,7 @@ This is a shared application, shared DB multi-tenant application which provides 
 
 ## Directory Structure
 
+```bash
 /viwell-bk
 ├── /src
 │ ├── /common
@@ -85,6 +86,7 @@ This is a shared application, shared DB multi-tenant application which provides 
 ├── README.md
 ├── tsconfig.build.json
 └── tsconfig.json
+```
 
 ## App Components
 
